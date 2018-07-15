@@ -1,12 +1,13 @@
 package com.example.ec.explocali;
 
-import com.example.ec.explocali.domain.Tour;
+
+import com.example.ec.explocali.domain.Difficulty;
+import com.example.ec.explocali.domain.Region;
 import com.example.ec.explocali.services.TourPackageService;
 import com.example.ec.explocali.services.TourService;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jdk.internal.org.objectweb.asm.TypeReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -39,6 +40,20 @@ public class ExplocaliApplication implements CommandLineRunner {
 		tourPackageService.createTourPackage("SC", "Snowboard Cali");
 		tourPackageService.createTourPackage("TC", "Taste of California");
 		tourPackageService.lookup().forEach(tourPackage -> System.out.println(tourPackage));	//
+
+		TourFromFile.importFromFile().forEach(t-> tourService.createTour(
+				t.title,
+				t.description,
+				t.blurb,
+				Integer.parseInt(t.price),
+				t.length,
+				t.bullets,
+				t.keywords,
+				t.packageType,
+				Difficulty.valueOf(t.difficulty),
+				Region.findByLabel(t.region)));
+		System.out.println("Number of tours =" + tourService.total());
+
 	}
 
 	static class TourFromFile{
@@ -49,7 +64,7 @@ public class ExplocaliApplication implements CommandLineRunner {
 		static List<TourFromFile> importFromFile() throws IOException{
 			return new ObjectMapper().setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY).
 					readValue(TourFromFile.class.getResourceAsStream("/ExploreCalifornia.json"),
-							new TypeReference<List<TourFromFile>>(){});	}
+							new com.fasterxml.jackson.core.type.TypeReference<List<TourFromFile>>(){});	}
 	}
 
 
