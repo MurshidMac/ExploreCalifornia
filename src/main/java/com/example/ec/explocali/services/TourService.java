@@ -26,22 +26,23 @@ public class TourService {
 
     public Tour createTour(String title, String description, String blurb,
                            Integer price, String duration, String bullets, String keywords,
-                           String TourpackCode, Difficulty diff, Region region){
+                           String tourPackageName, Difficulty diff, Region region){
         // before we create a tour package we should know wether the tour package exists in
         // the db
-        Optional<TourPackage> searchtourpacke = tourPackageRepository.findById(TourpackCode);
+        TourPackage searchtourpacke = tourPackageRepository.findByName(tourPackageName);
         // This is to check for the changes happened in the 1.8 java
         // With few Name changes
         System.out.println(searchtourpacke.toString());
 
-        if(!searchtourpacke.isPresent()){
+        // Modified to check the package name
+        if(searchtourpacke==null){
             throw new RuntimeException("Tour package does not exists");
         }
 
         // This is getting from the list optional class
-        TourPackage packageFromOptional = searchtourpacke.get();
+        //TourPackage packageFromOptional = searchtourpacke.get();
         return tourRepository.save(new Tour(title, description,blurb, price,duration,bullets,
-                keywords,packageFromOptional,diff,region));
+                keywords,searchtourpacke ,diff,region));
     }
 
     public Iterable<Tour> loopup(){
