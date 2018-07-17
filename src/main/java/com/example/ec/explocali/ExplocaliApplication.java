@@ -56,6 +56,9 @@ public class ExplocaliApplication implements CommandLineRunner {
 
 	}
 
+
+	// Unit Testing the Project
+
 	static class TourFromFile{
 		// Attributes Listed as in the JSON file
 		private String packageType,title, blurb,description,bullets,difficulty,length,price,region,
