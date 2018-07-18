@@ -29,4 +29,6 @@ public class TourPackageService {
     public long total(){
         return tourPackageRepository.count();
     }
+
+
 }

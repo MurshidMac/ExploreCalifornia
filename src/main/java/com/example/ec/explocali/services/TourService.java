@@ -7,8 +7,10 @@ import com.example.ec.explocali.domain.Region;
 import com.example.ec.explocali.domain.Tour;
 import com.example.ec.explocali.domain.TourPackage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -53,4 +55,14 @@ public class TourService {
         return tourRepository.count();
     }
 
+    @Nullable
+    public Tour verifyTour(int id) throws NoSuchElementException {
+        Optional<Tour> tour = tourRepository.findById(id);
+
+        if(tour.isPresent()){
+            return tour.get();
+        }
+
+        return null;
+    }
 }

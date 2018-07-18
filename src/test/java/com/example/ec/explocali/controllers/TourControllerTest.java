@@ -32,7 +32,5 @@ public class TourControllerTest {
         ).andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().string(""));
 
-        // Adding the specific test output.
-
     }
 }
