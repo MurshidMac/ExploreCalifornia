@@ -21,7 +21,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api")
 public class TourController {
-    
+
     @Autowired
     private TourService tourService;
 

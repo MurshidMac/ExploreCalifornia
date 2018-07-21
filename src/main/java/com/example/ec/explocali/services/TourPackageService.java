@@ -3,6 +3,7 @@ package com.example.ec.explocali.services;
 import com.example.ec.explocali.Repo.TourPackageRepository;
 import com.example.ec.explocali.domain.TourPackage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -30,5 +31,14 @@ public class TourPackageService {
         return tourPackageRepository.count();
     }
 
+    @Nullable
+    public TourPackage verifyTourPackage(String code){
+        TourPackage tourPackage = tourPackageRepository.findByName(code);
+
+        if(tourPackage !=null){
+            return  tourPackage;
+        }
+        return null;
+    }
 
 }

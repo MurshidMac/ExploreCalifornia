@@ -3,7 +3,9 @@ package com.example.ec.explocali.controllers;
 import com.example.ec.explocali.domain.TourPackage;
 import com.example.ec.explocali.services.TourPackageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -15,7 +17,9 @@ public class TourPackageController {
     @Autowired
     private TourPackageService tourPackageService;
 
-    @RequestMapping("/tourpackages")
+    TourPackage tourPackage;
+
+    @RequestMapping(value = "/tourpackages", method = RequestMethod.GET)
     public List<TourPackage> getAlltourpackages(){
         Iterable<TourPackage> packages = tourPackageService.lookup();
 
@@ -31,4 +35,11 @@ public class TourPackageController {
         return list;
     }
 
+
+    @RequestMapping(value ="/tourpackages/{code}")
+    public TourPackage getTourPackage(@PathVariable(value ="code") String code){
+        tourPackage = tourPackageService.verifyTourPackage(code);
+
+        return tourPackage;
+    }
 }
